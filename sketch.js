@@ -152,6 +152,7 @@ function setup() {
         barWidth: 45,
         xTitle: 1500 ,
         yTitle: 950 ,
+        textSize:36,
         barFill: "#b8c0ff",
         referenceFill: "#000000",
         referenceFillY: "#000000",
