@@ -18,23 +18,33 @@ class BarChartScatter {
         this.barTitle=obj.barTitle;
         this.xTitle=obj.xTitle;
         this.yTitle=obj.yTitle;
-        this.yValue = obj.yValue;
+        this.textSize = obj.textSize;
+        this.yValues = obj.yValues;
+        this.yValuesF=obj.yValuesF;
+        this.scatterFill=obj.scatterFill;
+        this.scatterFillF=obj.scatterFillF;
+        this.totalValue = obj.totalValue;
         this.barTitle= obj.barTitle;
-        this.maxValue = max(this.data.map(d => d[this.yValue]));
+        this.maxValue = max(this.data.map(d => d[this.yValues]));
         this.scale = this.chartHeight / this.maxValue;
         this.rounding = obj.rounding;
+        this.avgLine=obj.avgLine;
+        this.avgLineColour=obj.avgLineColour;
         this.decimalPlaces = obj.decimalPlaces;
+        
 
     }
-    // first is bartitle, then rounding for scale and numtick values after pop
+   
+    // rounding for scale and numtick values
     render() {
-        
         push()
         textAlign(CENTER,CENTER);
         textFont(fontLight);
-        textSize(36)
+        textSize(this.textSize);
         text(this.barTitle,this.xTitle,this.yTitle);
         pop();
+
+        // if rounding true, makes numtick = the nearest full value thats divisible by an even amount
 
         if (this.rounding) {
             for (let i = 0; i < 1000; i++) {
@@ -46,9 +56,9 @@ class BarChartScatter {
             }
             this.scale = this.chartHeight / this.maxValue;
         }
-        //chart
-        // rotate(90)
-        // translate(100,-1000)
+       
+
+        // chart location
         push();
         translate(this.xPos, this.yPos);
         stroke(this.axisLineColour)
@@ -82,17 +92,37 @@ class BarChartScatter {
         pop();
 
         let gap = (this.chartWidth - (this.data.length * this.barWidth)) / (this.data.length + 1)
+        let total=0;
+
+        for(let i=0;i<cleanData[i].Total;i++){
+            total+=+cleanData[i].Total;
+        };
+        // console.log(total)
+        let avgLine=total/this.data.length;
+        // console.log(avgLine)
         
+       
+
         push();
         //bars
         translate(gap, 0);
         for (let i = 0; i < this.data.length; i++) {
-            let barHeight=-this.data[i][this.yValue] * this.scale
-            fill(this.barFill)
-// -5 to align with reference names
-            ellipse(this.barWidth-5, barHeight, 10, 10);
+            push();
+            // loop within first bar loop to create one thats translated above
+            for(let j=0;j<this.yValues.length;j++){
+                let barHeight=-this.data[i][this.yValues[j]] * this.scale
+                let barHeightF=-this.data[i][this.yValuesF[j]] * this.scale
+                fill(this.scatterFill)
+                ellipse(this.barWidth,barHeight,10,10);
+                fill(this.scatterFillF)
+                ellipse(this.barWidth,barHeightF,10,10);
+                translate(0,barHeight)
+            }
+            pop();
+            
 
-
+            
+            
             //bar chart x values
             push();
 
@@ -114,8 +144,13 @@ class BarChartScatter {
 
         }
         pop();
-
-
+        if (this.avgLine){
+        stroke(this.avgLineColour);
+        line(0,-avgLine*this.scale,this.chartWidth,-avgLine*this.scale);
+        }
         pop();
+
     }
+    
+    
 }

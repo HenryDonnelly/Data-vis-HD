@@ -5,8 +5,11 @@ let numRows;
 let fontLight;
 let fontReg;
 let fontBold;
-let colours = ["#b8c0ff", "#fb6f92"]
-
+let colours = ["#b8c0ff", "#fb6f92",]
+let coloursPie = [
+    "#ff7ab1", "#ff8cff", "#eb8cff", "#d989ff", "#c288ff", "#ad88ff", "#9275ff", "#789bff",
+    "#708fff", "#6082ff", "#4f75ff", "#3f68ff", "#2f5bff", "#1f4eff", "#0f41ff", "#ff7a7a"
+];
 function preload() {
     // data = loadTable("data/combined.csv", "csv", "header");
     data = loadTable("data/earlyLeavers.csv", "csv", "header");
@@ -125,7 +128,7 @@ function setup() {
         referenceFill: "#000000",
         referenceFillY: "#000000",
         axisLineColour: "#3a5361",
-        yValues: ["Male", "Female"],
+        yValues: ["Male","Female"],
         totalValue: "Total",
         rounding: false,
         barTitle: "Total amount (in thousands)",
@@ -153,8 +156,12 @@ function setup() {
         referenceFill: "#000000",
         referenceFillY: "#000000",
         axisLineColour: "#3a5361",
-        yValue: "Total",
-        rounding: true,
+        yValues: ["Male"],
+        scatterFill:"#b8c0ff",
+        scatterFillF:"#fb6f92",
+        yValuesF:["Female"],
+        totalValue: "Total",
+        rounding: false,
         barTitle: "Total amount (in thousands)",
         decimalPlaces: 0
     }
@@ -181,12 +188,46 @@ function setup() {
         decimalPlaces: 0
     }
 
+    let barChartPie= {
+        data:cleanData,
+        chartHeight:800,
+        chartWidth:800,
+        xPos:3300,
+        axisThickness:2,
+        yPos:500,
+        numTicks:5,
+        referenceName:"Year",
+        rotation:45,
+        barWidth:45,
+        xTitle:2500,
+        yTitle:950,
+        referenceFill:"#000000",
+        referenceFillY:"#000000",
+        axisLineColour:"#3a5361",
+        descriptionSize:28,
+        descriptionText:"starting from 2004(red) to 2019(blue)",
+        descriptionTextX:-230,
+        descriptionTextY:40,
+        TitleSize:32,
+        TitleText:"Total amount (in thousands)",
+        TitleTextX:-190,
+        TitleTextY:-10,
+        yValue:["Total"],
+        rounding:true,
+        barTitle:"Total amount (in thousands)",
+        decimalPlaces: 0
+    }
+
+
+    
+
     barCharts.push(new BarChart(barChartHorizontal))
     barCharts.push(new BarChartRegular(barChartRegular))
     barCharts.push(new BarChartRegular(barChartRegularB))
     barCharts.push(new BarChartLine(barChartLine))
     barCharts.push(new BarChartStacked(barChartStacked))
     barCharts.push(new BarChartScatter(barChartScatter))
+    barCharts.push(new BarChartPie(barChartPie))
 }
 
 function draw() {
