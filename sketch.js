@@ -16,7 +16,7 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(3600, 2000)
+    createCanvas(4000, 2000)
     angleMode(DEGREES);
 
     numRows = data.rows.length;
